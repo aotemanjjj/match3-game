@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>消消乐</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <div class="bg-decorations">
+      <div class="deco-circle deco-1"></div>
+      <div class="deco-circle deco-2"></div>
+      <div class="deco-circle deco-3"></div>
+      <div class="deco-circle deco-4"></div>
+      <div class="deco-circle deco-5"></div>
+      <div class="deco-circle deco-6"></div>
+      <div class="deco-triangle deco-t1"></div>
+      <div class="deco-triangle deco-t2"></div>
+      <div class="deco-triangle deco-t3"></div>
+      <div class="deco-star deco-s1"></div>
+      <div class="deco-star deco-s2"></div>
+      <div class="deco-star deco-s3"></div>
+      <div class="deco-ring deco-r1"></div>
+      <div class="deco-ring deco-r2"></div>
+      <div class="deco-wave deco-w1"></div>
+      <div class="deco-wave deco-w2"></div>
+      <div class="deco-blob deco-b1"></div>
+      <div class="deco-blob deco-b2"></div>
+      <div class="bg-gradient-shift"></div>
+      <div class="bg-lines"></div>
+      <div class="deco-text deco-text-1">牛马还在玩</div>
+      <div class="deco-text deco-text-2">冲鸭</div>
+      <div class="deco-text deco-text-3">加油</div>
+    </div>
 
+    <header class="game-header">
+      <div class="header-left">
+        <div class="level-label">第 <span id="currentLevel">1</span> 关</div>
+        <div class="score-display">⭐ <span id="currentScore">0</span></div>
+      </div>
+      <div class="header-right">
+        <div class="target-label">目标</div>
+        <div class="target-score" id="targetScore">1000</div>
+        <button class="icon-btn" id="settingsBtn" aria-label="设置">⚙️</button>
+      </div>
+    </header>
+
+    <main class="game-main">
+      <div class="board-container">
+        <div id="gameBoard" class="game-board"></div>
+      </div>
+    </main>
+
+    <footer class="game-footer">
+      <div class="items-bar">
+        <button class="item-btn" id="bombBtn" data-item="bomb">
+          <span class="item-icon">💣</span>
+          <span class="item-count" id="bombCount">3</span>
+        </button>
+        <button class="item-btn" id="rainbowBtn" data-item="rainbow">
+          <span class="item-icon">🌈</span>
+          <span class="item-count" id="rainbowCount">2</span>
+        </button>
+        <button class="item-btn" id="shuffleBtn" data-item="shuffle">
+          <span class="item-icon">🔀</span>
+          <span class="item-count" id="shuffleCount">5</span>
+        </button>
+      </div>
+    </footer>
+
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>设置</h2>
+        <div class="setting-row">
+          <span>背景音乐</span>
+          <label class="switch">
+            <input type="checkbox" id="musicToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span>音效</span>
+          <label class="switch">
+            <input type="checkbox" id="soundToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <button class="btn btn-secondary" id="restartBtn">重新开始本关</button>
+        </div>
+        <div class="setting-row">
+          <button class="btn btn-secondary" id="rankingBtn">排行榜</button>
+        </div>
+        <button class="btn btn-primary" id="closeSettingsBtn">关闭</button>
+      </div>
+    </div>
+
+    <div class="modal" id="levelCompleteModal">
+      <div class="modal-content">
+        <h2>🎉 过关啦！</h2>
+        <p class="result-score">得分：<span id="finalScore">0</span></p>
+        <p class="result-level">第 <span id="completedLevel">1</span> 关完成</p>
+        <div class="reward-section">
+          <p>获得奖励：</p>
+          <div class="reward-items" id="rewardItems"></div>
+        </div>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" id="shareBtn">分享成绩</button>
+          <button class="btn btn-primary" id="nextLevelBtn">下一关</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="gameOverModal">
+      <div class="modal-content">
+        <h2>😢 游戏结束</h2>
+        <p class="result-score">得分：<span id="overScore">0</span></p>
+        <p>没有可消除的方块了</p>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" id="retryBtn">重试</button>
+          <button class="btn btn-primary" id="backBtn">返回</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="rankingModal">
+      <div class="modal-content">
+        <h2>🏆 排行榜</h2>
+        <div class="ranking-tabs">
+          <button class="tab-btn active" data-tab="local">本地最高</button>
+          <button class="tab-btn" data-tab="friends">好友排行</button>
+        </div>
+        <div class="ranking-content" id="rankingList"></div>
+        <div class="add-friend-section" id="addFriendSection" style="display:none;">
+          <input type="text" id="friendName" placeholder="好友昵称">
+          <input type="number" id="friendScore" placeholder="分数">
+          <button class="btn btn-primary" id="addFriendBtn">添加</button>
+        </div>
+        <button class="btn btn-secondary" id="closeRankingBtn">关闭</button>
+      </div>
+    </div>
+
+    <div class="modal" id="shareModal">
+      <div class="modal-content">
+        <h2>📤 分享成绩</h2>
+        <canvas id="shareCanvas" width="400" height="500"></canvas>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" id="copyTextBtn">复制文案</button>
+          <button class="btn btn-primary" id="downloadImgBtn">下载图片</button>
+        </div>
+        <button class="btn btn-secondary" id="closeShareBtn">关闭</button>
+      </div>
+    </div>
+
+    <div class="combo-display" id="comboDisplay"></div>
+    <div class="floating-scores" id="floatingScores"></div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
